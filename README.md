@@ -76,6 +76,36 @@ You can test that it was installed correctly by importing the package. Make sure
 3
 ```
 
+## Setup.py
+The smallest python project is two files. A setup.py file which describes the metadata about your project, and a file containing Python code to implement the functionality of your project. **While `setup.py` is now considered replaced by `pyproject.toml` it is still relevant and heavily used**.
+
+The setup.py file is at the heart of a Python project. It describes all of the metadata about your project. There a quite a few fields you can add to a project to give it a rich set of metadata describing the project. However, there are only three required fields: name, version, and packages. The name field must be unique if you wish to publish your package on the Python Package Index (PyPI). The version field keeps track of different releases of the project. The packages field describes where you’ve put the Python source code within your project.
+
+Our initial setup.py will also include information about the license and will re-use the README.txt file for the long_description field. This will look like:
+```py
+from distutils.core import setup
+
+setup(
+    name='TowelStuff',
+    version='0.1dev',
+    packages=['towelstuff',],
+    license='Creative Commons Attribution-Noncommercial-Share Alike license',
+    long_description=open('README.txt').read(),
+)
+```
+To create a release using `setup.py`, your source code needs to be packaged into a single archive file. This can be done with the sdist command:
+```sh
+python setup.py sdist
+```
+This will create a dist sub-directory in your project (*an egg*), and will wrap-up all of your project’s source code files into a distribution file, a compressed archive file in the form of: `TowelStuff-0.1.tar.gz`
+
+You can register your package with pypi and upload your release with the following:
+```
+# Choose project name: http://pypi.python.org/pypi/<projectname>
+
+python setup.py register
+python setup.py sdist bdist_wininst upload
+```
 ## Next steps
 Keep in mind that this tutorial showed you how to upload your package to Test PyPI, which isn’t a permanent storage. The Test system occasionally deletes packages and accounts. It is best to use TestPyPI for testing and experiments like this tutorial.
 
